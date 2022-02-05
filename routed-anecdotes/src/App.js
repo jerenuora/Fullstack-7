@@ -19,6 +19,7 @@ const Menu = () => {
       <Link href='#' style={padding} to="/">anecdotes</Link>
       <Link href='#' style={padding} to="/create">create new</Link>
       <Link href='#' style={padding} to="/about">about</Link>
+
     </div>
   )
 }
@@ -27,11 +28,25 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => 
+      <li key={anecdote.id} >
+        <Link href='#'  to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+      </li>)}
     </ul>
   </div>
 )
+const Anecdote = ({ anecdote }) => {
+  return (
+  <div>
+    <h2>{anecdote.content} by {anecdote.author}</h2>
+    <div>{anecdote.votes} votes</div>
+    <br />
+    <div>see more info <a href={anecdote.info}>{anecdote.info}</a></div>
+    <br />
 
+</div>
+  )
+  }
 const About = () => (
   <div>
     <h2>About anecdote app</h2>
@@ -110,7 +125,6 @@ const App = () => {
       id: '2'
     }
   ])
-
   const [notification, setNotification] = useState('')
 
   const addNew = (anecdote) => {
@@ -131,12 +145,19 @@ const App = () => {
 
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
+  const match = useRouteMatch('/anecdotes/:id')
+  const anecdote = match
+    ? anecdoteById(match.params.id)
+    : null
 
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
       <Switch>
+        <Route path="/anecdotes/:id">
+          <Anecdote anecdote={anecdote} />
+        </Route>
         <Route path="/about">
           <About />
         </Route>
