@@ -15,11 +15,30 @@ const useField = (type) => {
   }
 }
 
-const useCountry = (name) => {
+
+const useCountry =  (name) => {
   const [country, setCountry] = useState(null)
 
-  useEffect(() => {})
+  useEffect(() => {
 
+    const foundHandler = res => {
+      if  (res.data.status !== 404) {
+        setCountry({
+          data: res.data[0],
+          found: true
+        })
+      } else {
+        setCountry({found:false})
+      }
+    }
+
+    if (name) {
+      axios.get(`https://restcountries.com/v2/name/${name}?fullText=true`)
+        .then(foundHandler)
+      }
+
+  },[name])
+   
   return country
 }
 
