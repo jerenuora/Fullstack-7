@@ -3,12 +3,11 @@ import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import BlogForm from './BlogForm'
 
-
 test('Blogform calls with correct info', () => {
   const blog = {
     title: 'A kind of title',
     author: 'A. Author',
-    url: 'www.url.com'
+    url: 'www.url.com',
   }
 
   const CreateBlog = jest.fn()
@@ -24,13 +23,13 @@ test('Blogform calls with correct info', () => {
   const form = component.container.querySelector('#form_id')
 
   fireEvent.change(newTitle, {
-    target: { value: blog.title }
+    target: { value: blog.title },
   })
   fireEvent.change(newAuthor, {
-    target: { value: blog.author }
+    target: { value: blog.author },
   })
   fireEvent.change(newUrl, {
-    target: { value: blog.url }
+    target: { value: blog.url },
   })
 
   fireEvent.submit(form)
@@ -39,4 +38,3 @@ test('Blogform calls with correct info', () => {
   expect(CreateBlog.mock.calls[0][0].author).toBe('A. Author')
   expect(CreateBlog.mock.calls[0][0].url).toBe('www.url.com')
 })
-

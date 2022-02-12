@@ -13,8 +13,6 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       deleteBlog(blog.id, blog.user)
     }
-
-
   }
 
   const blogStyle = {
@@ -22,28 +20,27 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 2,
-    marginBottom: 5
+    marginBottom: 5,
   }
   console.log(blog)
   if (showFullInfo) {
     return (
-      <div id='blog-id' style={blogStyle} className="blog">
+      <div id="blog-id" style={blogStyle} className="blog">
         <div>
           {blog.title} {blog.author}
           <button onClick={() => setShowFullInfo(false)}>hide</button>
+          <div>{blog.url}</div>
           <div>
-            {blog.url}
+            likes {blog.likes}{' '}
+            <button id="like-butt" onClick={updateLike}>
+              like
+            </button>
           </div>
-          <div>
-            likes {blog.likes} <button id='like-butt' onClick={updateLike}>like</button>
-          </div>
-          <div>
-            {blog.user.username}
-          </div>
-          <button id='remove-butt' onClick={removeBlog}>remove</button>
-
+          <div>{blog.user.username}</div>
+          <button id="remove-butt" onClick={removeBlog}>
+            remove
+          </button>
         </div>
-
       </div>
     )
   } else {
@@ -51,17 +48,17 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
       <div style={blogStyle}>
         <div>
           {blog.title} {blog.author}
-          <button id='view-butt' onClick={() => setShowFullInfo(true)}>view</button>
+          <button id="view-butt" onClick={() => setShowFullInfo(true)}>
+            view
+          </button>
         </div>
-
       </div>
     )
-
   }
 }
 Blog.protoTypes = {
   blog: PropTypes.object.isRequired,
   updateBlog: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired
+  deleteBlog: PropTypes.func.isRequired,
 }
 export default Blog
