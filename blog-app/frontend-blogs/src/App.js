@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
+import { useDispatch, useSelector } from 'react-redux'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
-import { useDispatch, useSelector } from 'react-redux'
 import { notificationSetter } from './reducers/notificationReducer'
-//import store from './store'
+import { newBlog, initBlogs } from './reducers/blogReducer'
 
 const Notification = ({ message }) => {
   if (!message) {
@@ -18,16 +18,16 @@ const Notification = ({ message }) => {
 
 const App = () => {
   const dispatch = useDispatch()
-  const message = useSelector(state => state)
-  const [blogs, setBlogs] = useState([])
+  const message = useSelector(state => state.notification)
+  const blogs = useSelector(state => state.blogs)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(initBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogsAppUser')
@@ -59,15 +59,13 @@ const App = () => {
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
 
-    const returnedBlog = await blogService.create(blogObject)
-    setBlogs(blogs.concat(returnedBlog))
+    dispatch(newBlog(blogObject))
   }
 
   const updateLikes = async (id, blog) => {
     const changedBlog = { ...blog, likes: blog.likes + 1 }
 
     await blogService.update(id, changedBlog)
-    setBlogs(blogs.map((blog) => (blog.id !== id ? blog : changedBlog)))
   }
 
   const deleteBlog = async (id, userDeleting) => {
@@ -75,7 +73,7 @@ const App = () => {
     console.log(user)
     try {
       await blogService.remove(id)
-      setBlogs(blogs.filter((blog) => blog.id !== id))
+      //setBlogs(blogs.filter((blog) => blog.id !== id))
     } catch (exeption) {
       dispatch(notificationSetter('not authorised to delete', 10))
     }

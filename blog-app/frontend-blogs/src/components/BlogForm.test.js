@@ -2,6 +2,8 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import BlogForm from './BlogForm'
+import store from '../store'
+import { Provider } from 'react-redux'
 
 test('Blogform calls with correct info', () => {
   const blog = {
@@ -11,10 +13,11 @@ test('Blogform calls with correct info', () => {
   }
 
   const CreateBlog = jest.fn()
-  const mockSetErrorMessage = jest.fn()
 
   const component = render(
-    <BlogForm createBlog={CreateBlog} setErrorMessage={mockSetErrorMessage} />
+    <Provider store={store}>
+      <BlogForm createBlog={CreateBlog}  />
+    </Provider>
   )
 
   const newTitle = component.container.querySelector('#title_id')
