@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { notificationSetter } from '../reducers/notificationReducer'
-import store from '../store'
 
 const BlogForm = ({ createBlog }) => {
   const dispatch = useDispatch()
@@ -18,7 +17,6 @@ const BlogForm = ({ createBlog }) => {
       url: newUrl,
     })
     dispatch(notificationSetter(`A new blog '${newTitle}'' by ${newAuthor} was added`,10))
-    console.log(store.getState())
     setNewTitle('')
     setNewAuthor('')
     setNewUrl('')

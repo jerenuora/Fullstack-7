@@ -9,7 +9,6 @@ import { notificationSetter } from './reducers/notificationReducer'
 //import store from './store'
 
 const Notification = ({ message }) => {
-  console.log('message', message)
   if (!message) {
     return null
   }

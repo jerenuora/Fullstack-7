@@ -15,7 +15,6 @@ export const notificationSetter = (notification, time) => {
       notification,
     })
     clearTimeout(timeoutID)
-    console.log(timeoutID,time)
     timeoutID = setTimeout(
       () =>
         dispatch({
