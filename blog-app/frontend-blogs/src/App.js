@@ -6,7 +6,7 @@ import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import { notificationSetter } from './reducers/notificationReducer'
-import { newBlog, initBlogs } from './reducers/blogReducer'
+import { newBlog, initBlogs, removeBlog } from './reducers/blogReducer'
 
 const Notification = ({ message }) => {
   if (!message) {
@@ -38,6 +38,30 @@ const App = () => {
     }
   }, [])
 
+  const addBlog = async (blogObject) => {
+    blogFormRef.current.toggleVisibility()
+
+    dispatch(newBlog(blogObject))
+  }
+
+
+
+  const updateLikes = async (id, blog) => {
+    const changedBlog = { ...blog, likes: blog.likes + 1 }
+
+    await blogService.update(id, changedBlog)
+  }
+
+  const deleteBlog = async (id, userDeleting) => {
+    console.log(userDeleting)
+    console.log(user)
+    try {
+      dispatch(removeBlog(id))
+    } catch (exeption) {
+      dispatch(notificationSetter('not authorised to delete', 10))
+    }
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -53,29 +77,6 @@ const App = () => {
       setPassword('')
     } catch (exception) {
       dispatch(notificationSetter('wrong username or password', 10))
-    }
-  }
-
-  const addBlog = async (blogObject) => {
-    blogFormRef.current.toggleVisibility()
-
-    dispatch(newBlog(blogObject))
-  }
-
-  const updateLikes = async (id, blog) => {
-    const changedBlog = { ...blog, likes: blog.likes + 1 }
-
-    await blogService.update(id, changedBlog)
-  }
-
-  const deleteBlog = async (id, userDeleting) => {
-    console.log(userDeleting)
-    console.log(user)
-    try {
-      await blogService.remove(id)
-      //setBlogs(blogs.filter((blog) => blog.id !== id))
-    } catch (exeption) {
-      dispatch(notificationSetter('not authorised to delete', 10))
     }
   }
 
