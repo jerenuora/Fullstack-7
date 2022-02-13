@@ -22,7 +22,6 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
     borderWidth: 2,
     marginBottom: 5,
   }
-  console.log(blog)
   if (showFullInfo) {
     return (
       <div id="blog-id" style={blogStyle} className="blog">

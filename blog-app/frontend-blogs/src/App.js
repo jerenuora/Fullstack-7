@@ -4,9 +4,13 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+import { useDispatch, useSelector } from 'react-redux'
+import { notificationSetter } from './reducers/notificationReducer'
+//import store from './store'
 
 const Notification = ({ message }) => {
-  if (message === null) {
+  console.log('message', message)
+  if (!message) {
     return null
   }
 
@@ -14,9 +18,9 @@ const Notification = ({ message }) => {
 }
 
 const App = () => {
+  const dispatch = useDispatch()
+  const message = useSelector(state => state)
   const [blogs, setBlogs] = useState([])
-
-  const [errorMessage, setErrorMessage] = useState(null)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -44,19 +48,12 @@ const App = () => {
       })
       window.localStorage.setItem('loggedBlogsAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setErrorMessage(`${user.name} logged in `)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-
+      dispatch(notificationSetter(`${user.name} logged in`, 10))
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong username or password')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(notificationSetter('wrong username or password', 10))
     }
   }
 
@@ -81,10 +78,7 @@ const App = () => {
       await blogService.remove(id)
       setBlogs(blogs.filter((blog) => blog.id !== id))
     } catch (exeption) {
-      setErrorMessage('not authorised to delete')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(notificationSetter('not authorised to delete', 10))
     }
   }
 
@@ -118,7 +112,6 @@ const App = () => {
 
   const blogList = () => {
     const blogList = blogs.sort((a, b) => b.likes - a.likes)
-    console.log(blogList)
     return (
       <div>
         {blogList.map((blog) => (
@@ -136,13 +129,13 @@ const App = () => {
   const blogFormRef = useRef()
   const blogForm = () => (
     <Togglable id="create-toggle" buttonLabel="Create Blog" ref={blogFormRef}>
-      <BlogForm createBlog={addBlog} setErrorMessage={setErrorMessage} />
+      <BlogForm createBlog={addBlog}  />
     </Togglable>
   )
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification message={message} />
 
       {user !== null ? (
         <div>

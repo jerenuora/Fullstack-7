@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { notificationSetter } from '../reducers/notificationReducer'
+import store from '../store'
 
-const BlogForm = ({ createBlog, setErrorMessage }) => {
+const BlogForm = ({ createBlog }) => {
+  const dispatch = useDispatch()
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
@@ -13,12 +17,8 @@ const BlogForm = ({ createBlog, setErrorMessage }) => {
       author: newAuthor,
       url: newUrl,
     })
-    if (newTitle && newAuthor) {
-      setErrorMessage(`A new blog '${newTitle}'' by ${newAuthor} was added`)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    }
+    dispatch(notificationSetter(`A new blog '${newTitle}'' by ${newAuthor} was added`,10))
+    console.log(store.getState())
     setNewTitle('')
     setNewAuthor('')
     setNewUrl('')
@@ -65,6 +65,5 @@ const BlogForm = ({ createBlog, setErrorMessage }) => {
 
 BlogForm.propTypes = {
   createBlog: PropTypes.func.isRequired,
-  setErrorMessage: PropTypes.func.isRequired,
 }
 export default BlogForm
