@@ -7,7 +7,7 @@ import notificationReducer from './reducers/notificationReducer'
 
 const reducer = combineReducers({
   blogs: blogReducer,
-  notifications: notificationReducer,
+  notification: notificationReducer,
 })
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))

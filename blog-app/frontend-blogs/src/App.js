@@ -6,7 +6,7 @@ import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import { notificationSetter } from './reducers/notificationReducer'
-import { newBlog, initBlogs, removeBlog } from './reducers/blogReducer'
+import { newBlog, initBlogs, removeBlog, likeBlog } from './reducers/blogReducer'
 
 const Notification = ({ message }) => {
   if (!message) {
@@ -48,18 +48,13 @@ const App = () => {
 
   const updateLikes = async (id, blog) => {
     const changedBlog = { ...blog, likes: blog.likes + 1 }
-
-    await blogService.update(id, changedBlog)
+    dispatch(likeBlog(id, changedBlog))
   }
 
   const deleteBlog = async (id, userDeleting) => {
     console.log(userDeleting)
     console.log(user)
-    try {
-      dispatch(removeBlog(id))
-    } catch (exeption) {
-      dispatch(notificationSetter('not authorised to delete', 10))
-    }
+    dispatch(removeBlog(id))
   }
 
   const handleLogin = async (event) => {

@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import { notificationSetter } from '../reducers/notificationReducer'
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
@@ -10,6 +11,10 @@ const blogReducer = (state = [], action) => {
     // eslint-disable-next-line no-case-declarations
     const blogsLeft = state.filter(a => a.id !== action.data)
     return [...blogsLeft]
+  case 'LIKE_BLOG':
+    // eslint-disable-next-line no-case-declarations
+    const blogs = state.filter(blog => blog.id !== action.data.id)
+    return [...blogs, action.data.blogObject]
   default:
     return state
   }
@@ -37,11 +42,23 @@ export const initBlogs = () => {
 
 export const removeBlog = (id) => {
   return async (dispatch) => {
-    await blogService.remove(id)
-    dispatch({
-      type: 'DELETE_BLOG',
-      data: id
-    })
+    try {
+      await blogService.remove(id)
+      dispatch({
+        type: 'DELETE_BLOG',
+        data: id
+      })} catch (exeption) {
+      dispatch(notificationSetter('Not authorized to delete',10))
+    }
   }
+}
+
+export const likeBlog = (id, blogObject) => {
+  return async (dispatch) => {
+    await blogService.update(id, blogObject)
+    dispatch({
+      type:'LIKE_BLOG',
+      data: { id, blogObject }
+    })}
 }
 export default blogReducer
