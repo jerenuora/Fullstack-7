@@ -53,7 +53,8 @@ export const removeBlog = (id) => {
   }
 }
 
-export const likeBlog = (id, blogObject) => {
+export const likeBlog = (id, blog) => {
+  const blogObject = { ...blog, likes: blog.likes + 1 }
   return async (dispatch) => {
     await blogService.update(id, blogObject)
     dispatch({

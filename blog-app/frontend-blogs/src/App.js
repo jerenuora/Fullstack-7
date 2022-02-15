@@ -47,8 +47,7 @@ const App = () => {
 
 
   const updateLikes = async (id, blog) => {
-    const changedBlog = { ...blog, likes: blog.likes + 1 }
-    dispatch(likeBlog(id, changedBlog))
+    dispatch(likeBlog(id, blog))
   }
 
   const deleteBlog = async (id, userDeleting) => {
