@@ -1,35 +1,25 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { doLogin } from '../reducers/loginReducer'
 
-const LoginForm = ({
-  handleLogin,
-  username,
-  setUsername,
-  password,
-  setPassword,
-}) => {
+const LoginForm = () => {
+  const dispatch = useDispatch()
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    dispatch(doLogin(event.target.password.value, event.target.username.value))
+  }
+
   return (
     <form onSubmit={handleLogin}>
       <div>
-        perse
-        <input
-          id="usersafdname"
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
+        username
+        <input id="username" type="text" name="username" />
       </div>
       <div>
         password
-        <input
-          id="password"
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
+        <input id="password" type="password" name="password" />
       </div>
-      <button id="login_butt" type="submit">
+      <button id="login-butt" type="submit">
         login
       </button>
     </form>

@@ -9,7 +9,6 @@ const notificationReducer = (state='', action) => {
 
 var timeoutID
 export const notificationSetter = (notification, time) => {
-  console.log('notificationSetteriss äkäytty  ')
   return async (dispatch) => {
     dispatch({
       type: 'SET_NOTIFICATION',

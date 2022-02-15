@@ -1,17 +1,20 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { removeBlog, likeBlog } from '../reducers/blogReducer'
+import { useDispatch } from 'react-redux'
 
-const Blog = ({ blog, updateBlog, deleteBlog }) => {
+const Blog = ({ blog }) => {
   const [showFullInfo, setShowFullInfo] = useState(false)
+  const dispatch = useDispatch()
 
   const updateLike = async (event) => {
     event.preventDefault()
-    updateBlog(blog.id, blog)
+    dispatch(likeBlog(blog.id, blog))
   }
-  const removeBlog = async (event) => {
+  const deleteBlog = async (event) => {
     event.preventDefault()
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      deleteBlog(blog.id, blog.user)
+      dispatch(removeBlog(blog.id))
     }
   }
 
@@ -36,7 +39,7 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
             </button>
           </div>
           <div>{blog.user.username}</div>
-          <button id="remove-butt" onClick={removeBlog}>
+          <button id="remove-butt" onClick={deleteBlog}>
             remove
           </button>
         </div>
