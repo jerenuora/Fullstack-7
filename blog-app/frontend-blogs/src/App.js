@@ -13,6 +13,7 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import UserList from './components/UserList'
+import User from './components/User'
 
 const Notification = ({ message }) => {
   if (!message) {
@@ -44,7 +45,6 @@ const App = () => {
 
   const blogList = () => {
     const blogList = blogs.sort((a, b) => b.likes - a.likes)
-    console.log(blogList)
     return (
       <div>
         {blogList.map((blog) => (
@@ -88,6 +88,7 @@ const App = () => {
           </p>
           <Router>
             <Routes>
+              <Route path="/users/:id" element={<User users={users} />} />
               <Route path="/users" element={<UserList users={users} />} />
               <Route path="/" element={blogPage()} />
             </Routes>

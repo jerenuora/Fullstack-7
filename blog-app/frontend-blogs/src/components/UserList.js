@@ -1,8 +1,8 @@
 import React from 'react'
 import Users from './Users'
 
-const UserList = (users) => {
-  if (users.users) {
+const UserList = ({ users }) => {
+  if (users) {
     return (
       <div>
         <h2>Users</h2>
@@ -10,10 +10,9 @@ const UserList = (users) => {
           <thead>
             <tr>
               <th></th>
-
               <th>Blogs created</th>
             </tr>
-            {users.users.map((user) => (
+            {users.map((user) => (
               <Users key={user.id} user={user} />
             ))}
           </thead>
