@@ -18,7 +18,7 @@ const Blog = ({ blog }) => {
     }
     navigate('/')
   }
-
+  console.log(blog)
   if (!blog){
     return null
   }

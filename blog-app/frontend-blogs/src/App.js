@@ -11,6 +11,7 @@ import LoginForm from './components/LoginForm'
 import UserList from './components/UserList'
 import User from './components/User'
 import BlogList from './components/BlogList'
+import NavigationMenu from './components/Navigation'
 
 const Notification = ({ message }) => {
   if (!message) {
@@ -50,7 +51,7 @@ const App = () => {
     return (
       <div>
         {blogForm()}
-        {<BlogList blogs={blogs}/>}
+        {<BlogList blogs={blogs} />}
       </div>
     )
   }
@@ -59,27 +60,20 @@ const App = () => {
 
   return (
     <div>
+      <NavigationMenu user={user} />
       <Notification message={message} />
 
       {user !== null && user ? (
         <div>
-          <h2>Blogs</h2>
-          <p>
-            {user.name} logged in
-            <button
-              onClick={() =>
-                window.localStorage.removeItem('loggedBlogsAppUser')
-              }
-            >
-              logout
-            </button>
-          </p>
-          <Routes>
-            <Route path="/blogs/:id" element={<Blog blog={blog} />} />
-            <Route path="/users/:id" element={<User users={users} />} />
-            <Route path="/users" element={<UserList users={users} />} />
-            <Route path="/" element={blogPage()} />
-          </Routes>
+          <div>
+            <h2>Blogs</h2>
+            <Routes>
+              <Route path="/blogs/:id" element={<Blog blog={blog} />} />
+              <Route path="/users/:id" element={<User users={users} />} />
+              <Route path="/users" element={<UserList users={users} />} />
+              <Route path="/" element={blogPage()} />
+            </Routes>
+          </div>
         </div>
       ) : (
         <LoginForm />
