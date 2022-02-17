@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 const Blog = ({ blog }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  console.log('BLOG',blog)
   const updateLike = async (event) => {
     event.preventDefault()
     dispatch(likeBlog(blog.id, blog))
@@ -18,12 +17,8 @@ const Blog = ({ blog }) => {
     }
     navigate('/')
   }
-  if (!blog){
-    return (
-      <div>
-        Loading blog...
-      </div>
-    )
+  if (!blog) {
+    return <div>Loading blog...</div>
   }
   return (
     <div id="blog-id" className="blog">
@@ -44,7 +39,9 @@ const Blog = ({ blog }) => {
         </button>
       </div>
       <h2>Comments</h2>
-      {blog.comments.map((comment) => (<li key={comment.id}>{comment.comment}</li>))}
+      {blog.comments.map((comment) => (
+        <li key={comment.id}>{comment.comment}</li>
+      ))}
     </div>
   )
 }
