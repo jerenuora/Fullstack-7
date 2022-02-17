@@ -22,7 +22,7 @@ export const doLogin = (username, password) => {
       })
       window.localStorage.setItem('loggedBlogsAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      dispatch(notificationSetter(`${user.name} logged in`, 10))
+      dispatch(notificationSetter(`${user.name} logged in`, 5))
       dispatch(setUser(user))
       dispatch({
         type: 'LOGIN',
