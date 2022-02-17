@@ -12,7 +12,7 @@ import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
-import Users from './components/Users'
+import UserList from './components/UserList'
 
 const Notification = ({ message }) => {
   if (!message) {
@@ -27,8 +27,7 @@ const App = () => {
   const blogs = useSelector((state) => state.blogs)
   const user = useSelector((state) => state.login)
   const users = useSelector((state) => state.users)
-  console.log(users)
-  console.log(blogs)
+
   useEffect(() => {
     dispatch(initBlogs())
   }, [dispatch])
@@ -54,27 +53,7 @@ const App = () => {
       </div>
     )
   }
-  const userList = () => {
-    if (users) {
-      return (
-        <div>
-          <h2>Users</h2>
-          <table>
-            <thead>
-              <tr>
-                <th></th>
 
-                <th>Blogs created</th>
-              </tr>
-              {users.map((user) => (
-                <Users key={user.id} user={user} />
-              ))}
-            </thead>
-          </table>
-        </div>
-      )
-    }
-  }
   const blogFormRef = useRef()
   const blogForm = () => (
     <Togglable id="create-toggle" buttonLabel="Create Blog" ref={blogFormRef}>
@@ -89,6 +68,7 @@ const App = () => {
       </div>
     )
   }
+
   return (
     <div>
       <Notification message={message} />
@@ -108,7 +88,7 @@ const App = () => {
           </p>
           <Router>
             <Routes>
-              <Route path="/users" element={userList()} />
+              <Route path="/users" element={<UserList users={users} />} />
               <Route path="/" element={blogPage()} />
             </Routes>
           </Router>
