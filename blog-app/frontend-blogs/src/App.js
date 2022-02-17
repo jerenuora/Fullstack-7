@@ -3,17 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { newBlog, initBlogs } from './reducers/blogReducer'
 import { setUser } from './reducers/loginReducer'
 import { getUsers } from './reducers/userReducer'
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route, //Link
-} from 'react-router-dom'
+import { Routes, Route, useMatch } from 'react-router-dom'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import UserList from './components/UserList'
 import User from './components/User'
+import BlogList from './components/BlogList'
 
 const Notification = ({ message }) => {
   if (!message) {
@@ -43,17 +40,6 @@ const App = () => {
     dispatch(newBlog(blogObject))
   }
 
-  const blogList = () => {
-    const blogList = blogs.sort((a, b) => b.likes - a.likes)
-    return (
-      <div>
-        {blogList.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
-      </div>
-    )
-  }
-
   const blogFormRef = useRef()
   const blogForm = () => (
     <Togglable id="create-toggle" buttonLabel="Create Blog" ref={blogFormRef}>
@@ -64,10 +50,12 @@ const App = () => {
     return (
       <div>
         {blogForm()}
-        {blogList()}
+        {<BlogList blogs={blogs}/>}
       </div>
     )
   }
+  const match = useMatch('/blogs/:id')
+  const blog = match ? blogs.find((note) => note.id === match.params.id) : null
 
   return (
     <div>
@@ -86,13 +74,12 @@ const App = () => {
               logout
             </button>
           </p>
-          <Router>
-            <Routes>
-              <Route path="/users/:id" element={<User users={users} />} />
-              <Route path="/users" element={<UserList users={users} />} />
-              <Route path="/" element={blogPage()} />
-            </Routes>
-          </Router>
+          <Routes>
+            <Route path="/blogs/:id" element={<Blog blog={blog} />} />
+            <Route path="/users/:id" element={<User users={users} />} />
+            <Route path="/users" element={<UserList users={users} />} />
+            <Route path="/" element={blogPage()} />
+          </Routes>
         </div>
       ) : (
         <LoginForm />
