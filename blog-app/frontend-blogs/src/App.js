@@ -55,7 +55,7 @@ const App = () => {
     )
   }
   const match = useMatch('/blogs/:id')
-  const blog = match ? blogs.find((note) => note.id === match.params.id) : null
+  const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null
 
   return (
     <div>
