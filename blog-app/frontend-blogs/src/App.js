@@ -13,13 +13,7 @@ import User from './components/User'
 import BlogList from './components/BlogList'
 import NavigationMenu from './components/Navigation'
 import Container from '@material-ui/core/Container'
-
-const Notification = ({ message }) => {
-  if (!message) {
-    return null
-  }
-  return <div className="error">{message}</div>
-}
+import Notification from './components/Notification'
 
 const App = () => {
   const dispatch = useDispatch()

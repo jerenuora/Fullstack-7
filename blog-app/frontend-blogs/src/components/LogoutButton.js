@@ -3,13 +3,15 @@ import { useDispatch } from 'react-redux'
 import { setUser } from '../reducers/loginReducer'
 import { notificationSetter } from '../reducers/notificationReducer'
 import { useNavigate } from 'react-router-dom'
+import {  Button } from '@material-ui/core'
+
 const LogoutButton = ({ user }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   return (
     <>
       {user.name} logged in{' '}
-      <button
+      <Button variant='outlined'
         onClick={() => {
           window.localStorage.removeItem('loggedBlogsAppUser')
           dispatch(setUser(null))
@@ -18,7 +20,7 @@ const LogoutButton = ({ user }) => {
         }}
       >
         logout
-      </button>
+      </Button>
     </>
   )
 }

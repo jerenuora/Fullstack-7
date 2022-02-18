@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useDispatch } from 'react-redux'
 import { commentBlog } from '../reducers/blogReducer'
+import { TextField, Button } from '@material-ui/core'
 
 const CommentForm = ({ blog }) => {
   const dispatch = useDispatch()
@@ -12,8 +13,16 @@ const CommentForm = ({ blog }) => {
   }
   return (
     <form onSubmit={addComment}>
-      <input id="comment" type="text" name="comment"></input>
-      <button type="submit">comment</button>
+      <TextField
+        variant="outlined"
+        label="Comment"
+        id="comment"
+        type="text"
+        name="comment"
+      ></TextField>{' '}
+      <Button variant="contained" type="submit">
+        comment
+      </Button>
     </form>
   )
 }

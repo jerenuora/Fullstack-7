@@ -3,6 +3,8 @@ import { removeBlog, likeBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import CommentForm from './CommentForm'
+import {  Button } from '@material-ui/core'
+
 const Blog = ({ blog }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -29,14 +31,14 @@ const Blog = ({ blog }) => {
         <div>{blog.url}</div>
         <div>
           likes {blog.likes}{' '}
-          <button id="like-butt" onClick={updateLike}>
+          <Button variant='contained' id="like-butt" onClick={updateLike}>
             like
-          </button>
+          </Button>
         </div>
         <div>{blog.user.username}</div>
-        <button id="remove-butt" onClick={deleteBlog}>
+        <Button variant='contained' id="remove-butt" onClick={deleteBlog}>
           remove
-        </button>
+        </Button>
       </div>
       <h2>Comments</h2>
       <CommentForm blog={blog} />

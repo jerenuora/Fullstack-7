@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { notificationSetter } from '../reducers/notificationReducer'
+import { TextField, Button } from '@material-ui/core'
 
 const BlogForm = ({ createBlog }) => {
   const dispatch = useDispatch()
@@ -24,39 +25,36 @@ const BlogForm = ({ createBlog }) => {
   return (
     <form id="form_id" onSubmit={addBlog}>
       <h2>Create new blog</h2>
-      <p>
-        title:
-        <input
+      <div>
+        <TextField variant="filled" label='title'
           id="title_id"
           type="text"
           value={newTitle}
           name="blog"
           onChange={({ target }) => setNewTitle(target.value)}
         />
-      </p>
-      <p>
-        author:
-        <input
+      </div>
+      <div>
+        <TextField variant="filled" label='author'
           id="author_id"
           type="text"
           value={newAuthor}
           name="blog"
           onChange={({ target }) => setNewAuthor(target.value)}
         />
-      </p>
-      <p>
-        url:
-        <input
+      </div>
+      <div>
+        <TextField variant="filled" label='url'
           id="url_id"
           type="text"
           value={newUrl}
           name="blog"
           onChange={({ target }) => setNewUrl(target.value)}
         />
-      </p>
-      <button id="submit-butt" type="submit">
+      </div>
+      <Button id="submit-butt" type="submit">
         create
-      </button>
+      </Button>
     </form>
   )
 }
