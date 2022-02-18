@@ -1,16 +1,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { TableCell } from '@material-ui/core'
 
 const Users = ({ user }) => {
   return (
-    <tr>
-      <td>
+    <>
+      <TableCell>
         <li key={user.id}>
-          <Link to={`/users/${user.id}`}>{user.name} </Link>
+          <Link to={`/users/${user.id}`}>{user.name}</Link>
         </li>
-      </td>
-      <td>{user.blogs.length}</td>
-    </tr>
+      </TableCell>
+      <TableCell>{user.blogs.length}</TableCell>
+    </>
   )
 }
 

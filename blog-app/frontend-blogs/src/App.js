@@ -12,6 +12,7 @@ import UserList from './components/UserList'
 import User from './components/User'
 import BlogList from './components/BlogList'
 import NavigationMenu from './components/Navigation'
+import Container from '@material-ui/core/Container'
 
 const Notification = ({ message }) => {
   if (!message) {
@@ -50,6 +51,8 @@ const App = () => {
   const blogPage = () => {
     return (
       <div>
+        <h2>Blogs</h2>
+
         {blogForm()}
         {<BlogList blogs={blogs} />}
       </div>
@@ -59,14 +62,13 @@ const App = () => {
   const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null
 
   return (
-    <div>
+    <Container>
       <NavigationMenu user={user} />
       <Notification message={message} />
 
       {user !== null && user ? (
         <div>
           <div>
-            <h2>Blogs</h2>
             <Routes>
               <Route path="/blogs/:id" element={<Blog blog={blog} />} />
               <Route path="/users/:id" element={<User users={users} />} />
@@ -78,7 +80,7 @@ const App = () => {
       ) : (
         <LoginForm />
       )}
-    </div>
+    </Container>
   )
 }
 
