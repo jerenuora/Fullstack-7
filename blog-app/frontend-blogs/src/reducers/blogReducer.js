@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import blogService from '../services/blogs'
 import { notificationSetter } from '../reducers/notificationReducer'
 
@@ -8,13 +9,14 @@ const blogReducer = (state = [], action) => {
   case 'INIT_BLOGS':
     return action.data
   case 'DELETE_BLOG':
-    // eslint-disable-next-line no-case-declarations
     const blogsLeft = state.filter(a => a.id !== action.data)
     return [...blogsLeft]
   case 'LIKE_BLOG':
-    // eslint-disable-next-line no-case-declarations
     const blogs = state.filter(blog => blog.id !== action.data.id)
     return [...blogs, action.data.blogObject]
+  case 'COMMENT_BLOG':
+    const blogs2 = state.filter(blog => blog.id !== action.data.id)
+    return [...blogs2, action.data.blogObject]
   default:
     return state
   }
@@ -61,5 +63,17 @@ export const likeBlog = (id, blog) => {
       type:'LIKE_BLOG',
       data: { id, blogObject }
     })}
+}
+
+export const commentBlog = (blog, comment) => {
+  const id = blog.id
+  return async (dispatch) => {
+    const response = await blogService.comment(blog.id, comment)
+    const blogObject = { ...blog, comments: blog.comments.concat(response) }
+    dispatch({
+      type: 'COMMENT_BLOG',
+      data: { id , blogObject }
+    })
+  }
 }
 export default blogReducer

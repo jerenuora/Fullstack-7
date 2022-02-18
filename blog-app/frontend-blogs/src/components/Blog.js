@@ -2,7 +2,7 @@ import React from 'react'
 import { removeBlog, likeBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
+import CommentForm from './CommentForm'
 const Blog = ({ blog }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -39,9 +39,12 @@ const Blog = ({ blog }) => {
         </button>
       </div>
       <h2>Comments</h2>
-      {blog.comments.map((comment) => (
-        <li key={comment.id}>{comment.comment}</li>
-      ))}
+      <CommentForm blog={blog} />
+      <ul>
+        {blog.comments.map((comment) => (
+          <li key={comment.id}>{comment.comment}</li>
+        ))}
+      </ul>
     </div>
   )
 }
